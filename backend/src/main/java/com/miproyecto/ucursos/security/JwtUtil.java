@@ -23,9 +23,9 @@ public class JwtUtil {
     }
 
     // Generar token
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
                 .signWith(secretKey) // Usa la clave generada
@@ -33,12 +33,12 @@ public class JwtUtil {
     }
 
     // Validar token
-    public boolean validateToken(String token, String username) {
-        return extractUsername(token).equals(username) && !isTokenExpired(token);
+    public boolean validateToken(String token, String email) {
+        return extractEmail(token).equals(email) && !isTokenExpired(token);
     }
 
     // Obtener usuario del token
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractAllClaims(token).getSubject();
     }
 

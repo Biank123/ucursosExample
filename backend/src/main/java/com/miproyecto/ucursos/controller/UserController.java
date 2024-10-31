@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +26,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Inyección de PasswordEncoder
-
-    @Autowired
     private JwtUtil jwtUtil; // Inyección de JwtUtil
 
     @GetMapping
@@ -45,16 +41,7 @@ public class UserController {
             }
 
             System.out.println("Registrando usuario: " + user.getEmail());
-
-            // Verificar si el usuario ya existe
-            if (userService.findByEmail(user.getEmail()) != null) {
-                return ResponseEntity.badRequest().body("El correo electrónico ya está registrado");
-            }
-
-            String encryptedPassword = passwordEncoder.encode(user.getPassword());
-            user.setPassword(encryptedPassword);
-            System.out.println("Contraseña encriptada al registrar: " + encryptedPassword);
-            userService.save(user);
+            userService.save(user); // Aquí ya se verifica si el correo ya está registrado
             return ResponseEntity.ok("Usuario registrado con éxito");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
