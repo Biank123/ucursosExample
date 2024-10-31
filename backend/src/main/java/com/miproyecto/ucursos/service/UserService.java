@@ -35,7 +35,10 @@ public class UserService {
             throw new IllegalArgumentException("Rol inválido");
         }
         // Encriptar la contraseña antes de guardar el usuario
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        System.out.println("Contraseña encriptada: " + encodedPassword);
+
         return userRepository.save(user); // Guarda el nuevo usuario
     }
 
@@ -45,11 +48,22 @@ public class UserService {
 
     public Optional<User> login(String email, String password) {
         User user = userRepository.findByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            return Optional.of(user);
+        if (user != null) {
+            System.out.println("Usuario encontrado: " + user.getEmail());
+            boolean passwordMatch = passwordEncoder.matches(password, user.getPassword());
+            System.out.println("Contraseña ingresada: " + password);
+            System.out.println("Contraseña encriptada: " + user.getPassword());
+            System.out.println("¿Coincide? " + passwordMatch); 
+            
+            if (passwordMatch) {
+                return Optional.of(user);
+            } else {
+                System.out.println("Contraseña incorrecta para el usuario: " + user.getEmail());
+            }
         } else {
-            return Optional.empty(); // Si no se encuentra el usuario o la contraseña es incorrecta
+            System.out.println("Usuario no encontrado: " + email);
         }
+        return Optional.empty(); // Si no se encuentra el usuario o la contraseña es incorrecta
     }
 
     public User findByEmail(String email) {

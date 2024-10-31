@@ -8,21 +8,31 @@ const Login: React.FC = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:8080/api/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-        });
+        
+        try {
+            const response = await fetch('http://localhost:8080/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+                credentials: "include",
+            });
 
-        if (response.ok) {
-            const data = await response.text(); // El token se devuelve como texto
-            setToken(data); // Guarda el token
-            setMessage('Inicio de sesión exitoso');
-        } else {
-            setMessage('Credenciales incorrectas');
+            if (response.ok) {
+                const data = await response.json();
+                setToken(data.token); // Guarda el token si es `{ token: string }`
+                setMessage('Inicio de sesión exitoso');
+            } else {
+                setMessage('Credenciales incorrectas');
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+            setMessage('Error al conectar con el servidor');
         }
+
+        // Muestra el mensaje al usuario
+        alert(message);
     };
 
     return (
@@ -47,7 +57,7 @@ const Login: React.FC = () => {
                 />
             </div>
             <button type="submit">Iniciar Sesión</button>
-            {message && <p>{message}</p>}
+            <p>¿Olvidaste tu contraseña?</p>
         </form>
     );
 };
