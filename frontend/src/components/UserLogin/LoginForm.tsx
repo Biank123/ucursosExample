@@ -22,6 +22,7 @@ const Login: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 setToken(data.token); // Guarda el token si es `{ token: string }`
+                localStorage.setItem("token", data.token);
                 setMessage('Inicio de sesión exitoso');
             } else {
                 setMessage('Credenciales incorrectas');
