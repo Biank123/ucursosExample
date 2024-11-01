@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import FullCalendar from '@fullcalendar/react'; // Importar FullCalendar
+import FullCalendar from '@fullcalendar/react'; 
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import './Calendar.css';
 
 // Importar Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css'; // Estilo de Bootstrap
@@ -31,8 +32,9 @@ const Calendar: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="main-content">
       <h2>Calendario de Cursos</h2>
+      <div className="calendar-container">
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -44,6 +46,7 @@ const Calendar: React.FC = () => {
         }}
         eventClick={(eventInfo) => alert(`Evento: ${eventInfo.event.title}`)}
       />
+      </div>
     </div>
   );
 };

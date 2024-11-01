@@ -1,0 +1,49 @@
+/* Ajustes para la sidebar */
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #2e3b4e; /* color de fondo */
+    padding-top: 20px;
+    color: white;
+  }
+  
+  .sidebar h2 {
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .sidebar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .sidebar ul li a:hover {
+    color: #dcdcdc; /* color de hover */
+  }
+  
+  /* Ajustes para el contenido principal */
+  .main-content {
+    margin-left: 200px; /* Coincide con el ancho de la sidebar */
+    padding: 20px;
+  }
+  
+  /* Estilos específicos para el calendario */
+  .calendar-container {
+    max-width: 900px;
+    margin: 0 auto; /* Centra el calendario en el contenedor */
+    width: calc(100% - 220px); /* Ajusta el ancho del calendario */
+  }

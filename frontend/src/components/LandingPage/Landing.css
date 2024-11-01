@@ -1,0 +1,28 @@
+.landing-page {
+    margin-left: 220px; /* Margen izquierdo para evitar la superposición con la sidebar */
+    padding: 20px; /* Espaciado interno */
+    background-color: #f5f5f5; /* Color de fondo suave */
+    height: 100vh; /* Altura completa de la ventana */
+  }
+  
+  .landing-page h1 {
+    color: #2e3b4e; /* Color del encabezado */
+    text-align: center; /* Centrar el texto */
+    margin-bottom: 20px; /* Espaciado inferior */
+  }
+  
+  .landing-page button {
+    background-color: #2e3b4e; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    padding: 10px 20px; /* Espaciado interno del botón */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar */
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 10px; /* Espaciado entre botones */
+  }
+  
+  .landing-page button:hover {
+    background-color: #3c4b6e; /* Color al pasar el cursor */
+  }
+  

@@ -1,4 +1,5 @@
 import React from 'react';
+import './ChangePasswordForm.css';
 
 const ChangePasswordForm: React.FC = () => {
     const handlePasswordChange = (e: React.FormEvent) => {
@@ -8,7 +9,7 @@ const ChangePasswordForm: React.FC = () => {
     };
   
     return (
-      <form onSubmit={handlePasswordChange}>
+      <form className="change-password-form" onSubmit={handlePasswordChange}>
         <h3>Cambiar Contraseña</h3>
         <label>
           Contraseña actual:

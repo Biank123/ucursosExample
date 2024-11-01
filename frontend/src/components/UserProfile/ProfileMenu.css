@@ -1,0 +1,32 @@
+.profile-container {
+    margin-left: 220px; /* Ajusta este valor al ancho de la sidebar */
+    padding: 20px;
+    width: calc(100% - 220px); /* Ajusta el ancho del contenedor */
+    color: #333;
+  }
+  
+  .profile-container h2 {
+    color: #2e3b4e; /* Color del título */
+    margin-bottom: 20px;
+  }
+  
+  .profile-container p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .profile-container button {
+    background-color: #2e3b4e; /* Color de fondo de los botones */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .profile-container button:hover {
+    background-color: #1e2b3d; /* Color al pasar el cursor */
+  }
+  

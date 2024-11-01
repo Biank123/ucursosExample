@@ -1,4 +1,5 @@
 import React from 'react';
+import './DeleteAccountForm.css';
 
 const DeleteAccountForm: React.FC = () => {
     const handleAccountDelete = (e: React.FormEvent) => {
@@ -8,7 +9,7 @@ const DeleteAccountForm: React.FC = () => {
     };
   
     return (
-      <form onSubmit={handleAccountDelete}>
+      <form className="delete-account-form" onSubmit={handleAccountDelete}>
         <h3>Borrar Cuenta</h3>
         <p>¿Estás seguro de que quieres borrar tu cuenta? Esta acción no se puede deshacer.</p>
         <button type="submit" style={{ backgroundColor: 'red', color: 'white' }}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import './Sidebar.css';
 
 interface DecodedToken {
@@ -12,7 +12,7 @@ const getUserIdFromToken = () => {
 
   if (token) {
     try {
-      const decoded: DecodedToken = jwt_decode(token);
+      const decoded: DecodedToken = jwtDecode(token);
       return decoded.userId; 
     } catch (error) {
       console.error("Error decodificando el token", error);

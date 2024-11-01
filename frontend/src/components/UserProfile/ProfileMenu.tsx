@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ChangePasswordForm from './ChangePasswordForm';
 import DeleteAccountForm from './DeleteAccountForm';
+import './ProfileMenu.css';
 
 interface User {
   user_id: number;
@@ -60,7 +61,7 @@ const UserProfile: React.FC = () => {
   if (!user) return <div>No se encontró el usuario.</div>;
 
   return (
-    <div>
+    <div className="profile-container">
       <h2>Perfil de Usuario</h2>
       {/* Sección de Información */}
       <div>
