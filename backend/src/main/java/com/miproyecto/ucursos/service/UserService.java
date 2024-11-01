@@ -1,7 +1,10 @@
 package com.miproyecto.ucursos.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,9 +12,20 @@ import org.springframework.stereotype.Service;
 
 import com.miproyecto.ucursos.model.User;
 import com.miproyecto.ucursos.repository.UserRepository;
+import com.miproyecto.ucursos.security.JwtUtil;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
 
 @Service
 public class UserService {
+private SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+    @Autowired
+private JwtUtil jwtUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -46,17 +60,49 @@ public class UserService {
         userRepository.deleteById(id); // Elimina un usuario por su ID
     }
 
-    public Optional<User> login(String email, String password) {
+    // public Optional<User> login(String email, String password) {
+    //     User user = userRepository.findByEmail(email);
+    //     if (user != null) {
+    //         System.out.println("Usuario encontrado: " + user.getEmail());
+    //         boolean passwordMatch = passwordEncoder.matches(password, user.getPassword());
+    //         System.out.println("¿Coinciden contraseñas? " + passwordMatch); 
+            
+    //         if (passwordMatch) {
+    //             return Optional.of(user);
+    //         } else {
+    //             System.out.println("Contraseña incorrecta para el usuario: " + user.getEmail());
+    //         }
+    //     } else {
+    //         System.out.println("Usuario no encontrado: " + email);
+    //     }
+    //     return Optional.empty(); // Si no se encuentra el usuario o la contraseña es incorrecta
+    // }
+
+    public String generateToken(Long userId) {
+        Claims claims = Jwts.claims().setSubject(String.valueOf(userId));
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + 86400000); // 1 día de validez
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(secretKey) 
+                .compact();
+    }
+
+
+    public Optional<String> login(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             System.out.println("Usuario encontrado: " + user.getEmail());
             boolean passwordMatch = passwordEncoder.matches(password, user.getPassword());
-            System.out.println("Contraseña ingresada: " + password);
-            System.out.println("Contraseña encriptada: " + user.getPassword());
-            System.out.println("¿Coincide? " + passwordMatch); 
+            System.out.println("¿Coinciden contraseñas? " + passwordMatch); 
             
             if (passwordMatch) {
-                return Optional.of(user);
+                // Generar el token usando JwtUtil, pasando el ID y el correo del usuario
+                String token = jwtUtil.generateToken(user.getUserId(), user.getEmail());
+                return Optional.of(token); // Devuelve el token
             } else {
                 System.out.println("Contraseña incorrecta para el usuario: " + user.getEmail());
             }
@@ -65,6 +111,7 @@ public class UserService {
         }
         return Optional.empty(); // Si no se encuentra el usuario o la contraseña es incorrecta
     }
+
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);

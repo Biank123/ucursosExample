@@ -19,7 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/perfil" element={<Profile />} />
+        <Route path="/perfil/:id" element={<Profile />} />
         <Route path="/cursos" element={<Courses />} />
         <Route path="/calendario" element={<Calendar />} />
         <Route path="/grupos" element={<Groups />} />

@@ -23,12 +23,13 @@ public class JwtUtil {
     }
 
     // Generar token
-    public String generateToken(String email) {
+    public String generateToken(Long userId, String email) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(email) 
+                .claim("userId", userId) 
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
-                .signWith(secretKey) // Usa la clave generada
+                .signWith(secretKey) 
                 .compact();
     }
 

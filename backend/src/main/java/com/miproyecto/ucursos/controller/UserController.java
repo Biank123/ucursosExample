@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miproyecto.ucursos.model.User;
-import com.miproyecto.ucursos.security.JwtUtil;
+
 import com.miproyecto.ucursos.service.UserService;
 
 @RestController
@@ -25,8 +25,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private JwtUtil jwtUtil; // Inyección de JwtUtil
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -65,19 +63,17 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user) {
-        System.out.println("Intentando iniciar sesión con: " + user.getEmail());
+public ResponseEntity<String> loginUser(@RequestBody User user) {
+    System.out.println("Intentando iniciar sesión con: " + user.getEmail());
 
-        Optional<User> optionalUser = userService.login(user.getEmail(), user.getPassword());
-        if (optionalUser.isPresent()) {
-            User existingUser = optionalUser.get();
-            System.out.println("Usuario encontrado: " + existingUser.getEmail());
-            String token = jwtUtil.generateToken(existingUser.getEmail());
-            return ResponseEntity.ok(token);
-        } else {
-            System.out.println("Credenciales incorrectas.");
-            return ResponseEntity.status(401).body("Credenciales incorrectas");
-        }
+    Optional<String> optionalToken = userService.login(user.getEmail(), user.getPassword());
+    if (optionalToken.isPresent()) {
+        String token = optionalToken.get(); // Obtén el token del Optional
+        return ResponseEntity.ok(token); // Devuelve el token generado
+    } else {
+        System.out.println("Credenciales incorrectas.");
+        return ResponseEntity.status(401).body("Credenciales incorrectas");
     }
+}
 
 }
