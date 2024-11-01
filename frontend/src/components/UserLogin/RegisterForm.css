@@ -1,0 +1,52 @@
+.registerForm form {
+    max-width: 400px; /* Ancho máximo del formulario */
+    margin: 50px auto; /* Centrando el formulario en la página */
+    padding: 20px; /* Espaciado interno */
+    background-color: #f7f7f7; /* Color de fondo del formulario */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra del formulario */
+}
+
+.registerForm h2 {
+    text-align: center; /* Centrar el título */
+    color: #2e3b4e; /* Color del título */
+}
+
+.registerForm label {
+    display: block; /* Que el label ocupe toda la línea */
+    margin: 15px 0 5px; /* Margen para espaciar labels */
+    font-weight: bold; /* Negrita para los labels */
+}
+
+.registerForm input, select {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde ligero */
+    border-radius: 4px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+.registerForm input:focus, select:focus {
+    border-color: #2e3b4e; /* Color del borde al enfocar */
+    outline: none; /* Quitar el outline predeterminado */
+}
+
+.registerForm button {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    background-color: #2e3b4e; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    border-radius: 4px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+    font-weight: bold; /* Negrita para el texto del botón */
+}
+
+.registerForm button:hover {
+    background-color: #4b6584; /* Color de fondo al pasar el ratón */
+}
+
+.registerForm p {
+    text-align: center; /* Centrar texto */
+    margin-top: 10px; /* Espacio superior */
+}

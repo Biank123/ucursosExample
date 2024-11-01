@@ -20,7 +20,18 @@ CREATE TABLE courses (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabla de Contenidos del Curso
+-- Tabla Intermedia para Usuarios y Cursos
+CREATE TABLE user_courses (
+    user_course_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    course_id INT NOT NULL REFERENCES courses(course_id) ON DELETE CASCADE,
+    role_in_course VARCHAR(50) NOT NULL CHECK (role_in_course IN ('student', 'professor')),
+    enrollment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, course_id, role_in_course) -- Evita duplicados en la relación
+);
+
+
+-- Tabla de Contenidos del Curso (subidos desde el frontend)
 CREATE TABLE course_contents (
     content_id SERIAL PRIMARY KEY,
     course_id INT NOT NULL,

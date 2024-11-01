@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import './LoginForm.css';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [token, setToken] = useState<string | null>(null);
+    const navigate = useNavigate();
+    
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -21,9 +25,16 @@ const Login: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setToken(data.token); // Guarda el token si es `{ token: string }`
+                const token = data.token; 
                 localStorage.setItem("token", data.token);
                 setMessage('Inicio de sesión exitoso');
+
+                // Comprueba si el token no es nulo
+                if (token) {
+                    const decoded: { userId: string } = jwtDecode(token);
+                    navigate(`/perfil/${decoded.userId}`);
+                }
+                
             } else {
                 setMessage('Credenciales incorrectas');
             }
@@ -37,7 +48,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleLogin}>
+        <form className='loginForm' onSubmit={handleLogin}>
             <h2>Iniciar Sesión</h2>
             <div>
                 <label>Email:</label>

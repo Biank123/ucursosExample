@@ -60,24 +60,6 @@ private JwtUtil jwtUtil;
         userRepository.deleteById(id); // Elimina un usuario por su ID
     }
 
-    // public Optional<User> login(String email, String password) {
-    //     User user = userRepository.findByEmail(email);
-    //     if (user != null) {
-    //         System.out.println("Usuario encontrado: " + user.getEmail());
-    //         boolean passwordMatch = passwordEncoder.matches(password, user.getPassword());
-    //         System.out.println("¿Coinciden contraseñas? " + passwordMatch); 
-            
-    //         if (passwordMatch) {
-    //             return Optional.of(user);
-    //         } else {
-    //             System.out.println("Contraseña incorrecta para el usuario: " + user.getEmail());
-    //         }
-    //     } else {
-    //         System.out.println("Usuario no encontrado: " + email);
-    //     }
-    //     return Optional.empty(); // Si no se encuentra el usuario o la contraseña es incorrecta
-    // }
-
     public String generateToken(Long userId) {
         Claims claims = Jwts.claims().setSubject(String.valueOf(userId));
         Date now = new Date();
@@ -101,7 +83,7 @@ private JwtUtil jwtUtil;
             
             if (passwordMatch) {
                 // Generar el token usando JwtUtil, pasando el ID y el correo del usuario
-                String token = jwtUtil.generateToken(user.getUserId(), user.getEmail());
+                String token = jwtUtil.generateToken(user.getUserId(), user.getEmail(), user.getRole());
                 return Optional.of(token); // Devuelve el token
             } else {
                 System.out.println("Contraseña incorrecta para el usuario: " + user.getEmail());

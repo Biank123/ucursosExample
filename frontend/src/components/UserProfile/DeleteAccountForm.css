@@ -1,33 +1,63 @@
 .delete-account-form {
-    background-color: #f8f9fa; /* Color de fondo del formulario */
-    border: 1px solid #ddd; /* Borde del formulario */
-    border-radius: 8px; /* Bordes redondeados */
-    padding: 20px;
-    margin-top: 20px; /* Espaciado superior */
-    width: 400px; /* Ancho del formulario */
-  }
-  
-  .delete-account-form h3 {
-    color: #2e3b4e; /* Color del título */
-    margin-bottom: 10px; /* Espaciado inferior */
-  }
-  
-  .delete-account-form p {
-    margin-bottom: 15px; /* Espaciado inferior */
-    color: #333; /* Color del texto del párrafo */
-  }
-  
-  .delete-account-form button {
-    background-color: red; /* Color de fondo del botón */
-    color: white; /* Color del texto */
-    padding: 10px 20px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar */
-    font-weight: bold; /* Negrita para el texto del botón */
-  }
-  
-  .delete-account-form button:hover {
-    background-color: darkred; /* Color al pasar el cursor */
-  }
-  
+  background-color: #f8f9fa; /* Color de fondo del formulario */
+  border: 1px solid #ddd; /* Borde del formulario */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 20px;
+  margin-top: 20px; /* Espaciado superior */
+  width: 100%;
+  max-width: 400px; /* Ancho máximo del formulario */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.delete-account-form h3 {
+  color: #2e3b4e; /* Color del título */
+  margin-bottom: 10px; /* Espaciado inferior */
+  font-size: 1.5em;
+}
+
+.delete-account-form p {
+  margin-bottom: 10px; /* Espaciado inferior */
+  color: #333; /* Color del texto del párrafo */
+  line-height: 1.5;
+}
+
+.delete-account-form label {
+  color: #2e3b4e;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.delete-account-form select,
+.delete-account-form input[type="text"] {
+  width: 100%; /* Ancho completo */
+  padding: 8px;
+  border: 1px solid #ccc; /* Borde del input */
+  border-radius: 4px; /* Bordes redondeados */
+  font-size: 1em;
+}
+
+.delete-account-form button {
+  background-color: red; /* Color de fondo del botón */
+  color: white; /* Color del texto */
+  padding: 10px 20px; /* Espaciado interno */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar */
+  font-weight: bold; /* Negrita para el texto del botón */
+  transition: background-color 0.3s ease; /* Animación suave */
+}
+
+.delete-account-form button:hover {
+  background-color: darkred; /* Color al pasar el cursor */
+}
+
+.delete-account-form input[type="text"] {
+  margin-top: 10px;
+}
+
+.delete-account-form select {
+  margin-bottom: 10px;
+}

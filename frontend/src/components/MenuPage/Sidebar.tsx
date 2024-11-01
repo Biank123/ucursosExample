@@ -5,15 +5,16 @@ import './Sidebar.css';
 
 interface DecodedToken {
   userId: number;
+  role: string; 
 }
 
-const getUserIdFromToken = () => {
+const getDecodedToken = () => {
   const token = localStorage.getItem('token');
 
   if (token) {
     try {
       const decoded: DecodedToken = jwtDecode(token);
-      return decoded.userId; 
+      return decoded; 
     } catch (error) {
       console.error("Error decodificando el token", error);
     }
@@ -22,7 +23,9 @@ const getUserIdFromToken = () => {
 };
 
 const Sidebar: React.FC = () => {
-  const userId = getUserIdFromToken(); // Obtener ID del token
+  const decodedToken = getDecodedToken(); // Obtener el token decodificado
+  const userId = decodedToken ? decodedToken.userId : null;
+  const role = decodedToken ? decodedToken.role : '';
 
   return (
     <div className="sidebar">
@@ -32,8 +35,9 @@ const Sidebar: React.FC = () => {
         <li><Link to="/cursos">Cursos</Link></li>
         <li><Link to="/calendario">Calendario</Link></li>
         <li><Link to="/grupos">Grupos</Link></li>
-        <li><Link to="/tomar-cursos">Inscribir cursos</Link></li>
-      </ul>
+        {role === 'student' && <li><Link to="/tomar-cursos">Inscribir cursos</Link></li>}
+        {role === 'teacher' && <li><Link to="/aprobar-cursos">Aprobar cursos</Link></li>}
+        </ul>
     </div>
   );
 };

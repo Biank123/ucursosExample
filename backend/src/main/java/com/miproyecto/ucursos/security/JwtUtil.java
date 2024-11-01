@@ -1,41 +1,49 @@
 package com.miproyecto.ucursos.security;
 
-import java.security.Key;
 import java.util.Date;
 
+import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 
 @Component
 public class JwtUtil {
 
-    private Key secretKey; 
+    @Value("${jwt.secret}")
+    private String secretKeyString; // Clave secreta como String
+    private SecretKey secretKey; // Clave secreta como SecretKey
 
-    // Generar clave secreta en el inicio
     @PostConstruct
     public void init() {
-        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256); // Genera una nueva clave secreta
+        // Generar la clave secreta a partir de la clave secreta en formato String
+        secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
     }
 
     // Generar token
-    public String generateToken(Long userId, String email) {
+    public String generateToken(Long userId, String email, String role) {
         return Jwts.builder()
-                .setSubject(email) 
-                .claim("userId", userId) 
+                .setSubject(email)
+                .claim("userId", userId)
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
-                .signWith(secretKey) 
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 hora
+                .signWith(secretKey)
                 .compact();
     }
 
     // Validar token
     public boolean validateToken(String token, String email) {
-        return extractEmail(token).equals(email) && !isTokenExpired(token);
+        try {
+            return extractEmail(token).equals(email) && !isTokenExpired(token);
+        } catch (Exception e) {
+            return false; // Retorna false si hay un problema con la validación
+        }
     }
 
     // Obtener usuario del token
@@ -50,6 +58,6 @@ public class JwtUtil {
 
     // Extraer todos los datos del token
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody(); // Actualiza aquí también
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody();
     }
 }
