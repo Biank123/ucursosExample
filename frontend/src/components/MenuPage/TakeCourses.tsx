@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './TakeCourses.css';
 
 const Courses: React.FC = () => {
   const [courses, setCourses] = useState<any[]>([]);
@@ -51,13 +52,13 @@ const Courses: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="content">
       <h2>Cursos Disponibles</h2>
       {error && <p>Error: {error}</p>}
-      <ul>
+      <ul className="course-list">
         {courses.map(course => (
-          <li key={course.course_id}>{course.course_name}: {course.description}
-          <button onClick={() => enrollInCourse(course.course_id)}>Inscribir curso</button>
+          <li className="course-item" key={course.course_id}>{course.course_name}: {course.description}
+          <button onClick={() => enrollInCourse(course.course_id)} className="enroll-button">Inscribir curso</button>
           </li> 
           
         ))}
