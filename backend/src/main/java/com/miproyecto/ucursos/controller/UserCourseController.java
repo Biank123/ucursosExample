@@ -5,7 +5,7 @@ import com.miproyecto.ucursos.model.User;
 import com.miproyecto.ucursos.model.UserCourse;
 import com.miproyecto.ucursos.service.UserCourseService;
 import com.miproyecto.ucursos.service.UserService;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,23 @@ public class UserCourseController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping
+    public ResponseEntity<List<Course>> getEnrolledCourses() {
+        try {
+            User currentUser = userService.getCurrentUser();
+            if (currentUser == null) {
+                System.out.println("Usuario no autenticado");
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
+            List<Course> enrolledCourses = userCourseService.getEnrolledCoursesByUserId(currentUser.getUserId());
+            return new ResponseEntity<>(enrolledCourses, HttpStatus.OK);
+        } catch (Exception e) {
+            System.out.println("Error al obtener los cursos inscritos: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @PostMapping("/{courseId}")
     public ResponseEntity<String> enrollCourse(@PathVariable Long courseId, @RequestBody UserCourse userCourse) {

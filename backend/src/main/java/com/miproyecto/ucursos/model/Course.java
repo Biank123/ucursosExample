@@ -71,9 +71,21 @@ public class Course {
         this.updatedAt = updatedAt;
     }
 
-    // Constructor vacío
+    // Constructor 
     public Course(Long courseId) {
         this.courseId = courseId;
+    }
+
+       // Constructor por defecto
+       public Course() {
+       
+    }
+
+    public Course(String courseName, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.courseName = courseName;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
 }

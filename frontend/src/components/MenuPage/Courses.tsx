@@ -1,49 +1,47 @@
 import React, { useEffect, useState } from 'react';
 
-const Courses: React.FC = () => {
-  const [courses, setCourses] = useState<any[]>([]);
+const EnrolledCourses: React.FC = () => {
+  const [enrolledCourses, setEnrolledCourses] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCourses = async () => {
+    const fetchEnrolledCourses = async () => {
       try {
-        const response = await fetch('/api/courses', {
+        const response = await fetch(`http://localhost:8080/api/enroll`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
           },
         });
         
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('No se pudo obtener la lista de cursos inscritos');
         }
 
         const data = await response.json();
-        setCourses(data);
+        setEnrolledCourses(data);
       } catch (err: any) {
         setError(err.message);
       }
     };
 
-    fetchCourses();
+    fetchEnrolledCourses();
   }, []);
-
 
   return (
     <div>
-      <h2>Cursos Disponibles</h2>
+      <h2>Cursos Inscritos</h2>
       {error && <p>Error: {error}</p>}
       <ul>
-        {courses.map(course => (
-          <li key={course.course_id}>{course.course_name}: {course.description}
-        
-          </li> 
-          
+        {enrolledCourses.map(course => (
+          <li key={course.course_id}>
+            {course.course_name}: {course.description}
+          </li>
         ))}
       </ul>
     </div>
   );
 };
 
-export default Courses;
+export default EnrolledCourses;

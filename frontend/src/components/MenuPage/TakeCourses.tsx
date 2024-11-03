@@ -7,7 +7,7 @@ const Courses: React.FC = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch('/api/courses', {
+        const response = await fetch('http://localhost:8080/api/courses', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -29,26 +29,26 @@ const Courses: React.FC = () => {
     fetchCourses();
   }, []);
 
-  // const enrollInCourse = async (courseId: number) => {
-  //   try {
-  //     const response = await fetch(`/api/enroll/${courseId}`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': `Bearer ${localStorage.getItem('token')}` 
-  //       },
-  //     });
+  const enrollInCourse = async (courseId: number) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/enroll/${courseId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}` 
+        },
+      });
 
-  //     if (!response.ok) {
-  //       throw new Error('Failed to enroll in course');
-  //     }
+      if (!response.ok) {
+        throw new Error('Failed to enroll in course');
+      }
 
-  //     const result = await response.json();
-  //     alert(`Inscripción exitosa: ${result.message}`); 
-  //   } catch (err: any) {
-  //     alert(`Error: ${err.message}`);
-  //   }
-  // };
+      const result = await response.json();
+      alert(`Inscripción exitosa: ${result.message}`); 
+    } catch (err: any) {
+      alert(`Error: ${err.message}`);
+    }
+  };
 
   return (
     <div>
@@ -57,7 +57,7 @@ const Courses: React.FC = () => {
       <ul>
         {courses.map(course => (
           <li key={course.course_id}>{course.course_name}: {course.description}
-          {/* <button onClick={() => enrollInCourse(course.id)}>Inscribir</button> */}
+          <button onClick={() => enrollInCourse(course.course_id)}>Inscribir curso</button>
           </li> 
           
         ))}
