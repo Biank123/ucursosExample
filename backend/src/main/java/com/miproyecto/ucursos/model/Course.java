@@ -72,6 +72,8 @@ public class Course {
     }
 
     // Constructor vacío
-    public Course() {}
+    public Course(Long courseId) {
+        this.courseId = courseId;
+    }
 
 }

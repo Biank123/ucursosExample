@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -37,18 +38,35 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Validar token
-    public boolean validateToken(String token, String email) {
+    public boolean validateToken(String token, UserDetails userDetails) {
+        String email = extractEmail(token);
+        boolean isValid = (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        System.out.println("Token válido: " + isValid); // Para depuración
+    
+        // Extraer y mostrar los claims del token
         try {
-            return extractEmail(token).equals(email) && !isTokenExpired(token);
+            Claims claims = Jwts.parserBuilder() // Cambiado a parserBuilder()
+                .setSigningKey(secretKey) // Configurar la clave de firma
+                .build() // Construir el parser
+                .parseClaimsJws(token) // Analizar el token
+                .getBody(); // Obtener los claims
+            System.out.println("Claims: " + claims);
         } catch (Exception e) {
-            return false; // Retorna false si hay un problema con la validación
+            System.out.println("Error al analizar el token: " + e.getMessage());
         }
+    
+        return isValid;
     }
 
-    // Obtener usuario del token
+    public String extractRole(String token) {
+        Claims claims = extractAllClaims(token);
+        return claims.get("role", String.class); 
+    }
+
     public String extractEmail(String token) {
-        return extractAllClaims(token).getSubject();
+        String email = extractAllClaims(token).getSubject();
+        System.out.println("Email extraído del token: " + email); // Para depuración
+        return email;
     }
 
     // Comprobar si ha expirado

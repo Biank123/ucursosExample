@@ -25,15 +25,16 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter; // Inyecta el filtro aquí
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/users/register", "/api/users/login").permitAll() // Permitir acceso sin autenticación
-                .anyRequest().authenticated() // Requiere autenticación para otras rutas
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Añadir el filtro aquí
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(authz -> authz
+            .requestMatchers("/api/users/register", "/api/users/login").permitAll()
+            .requestMatchers("/api/enroll/**").authenticated()
+            .anyRequest().authenticated()
+        )
+        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+}
 }

@@ -1,11 +1,14 @@
 package com.miproyecto.ucursos.security;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull; 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,18 +34,33 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response, 
                                     @NonNull FilterChain chain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-
+    
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7); // Extraer el token
             String email = jwtUtil.extractEmail(token); // Obtener el email del token
             
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email); // Cargar los detalles del usuario
-                Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(auth); // Establecer la autenticación en el contexto
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                // Debug
+                System.out.println("User Details: " + userDetails); // Imprimir detalles del usuario
+                
+                if (jwtUtil.validateToken(token, userDetails)) {
+                    String role = jwtUtil.extractRole(token);
+                    List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(role);
+    
+                    Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    
+                    // Debug
+                    System.out.println("Authentication set for user: " + email);
+                } else {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token no válido");
+                    return; 
+                }
             }
         }
-
-        chain.doFilter(request, response); // Continuar con la cadena de filtros
+    
+        chain.doFilter(request, response); // Continúa con la cadena de filtros
     }
 }
+

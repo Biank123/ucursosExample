@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-
 
 @Service
 public class UserService {
@@ -97,5 +98,14 @@ private JwtUtil jwtUtil;
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            String email = authentication.getName(); 
+            return userRepository.findByEmail(email); 
+        }
+        return null; // No hay usuario autenticado
     }
 }
