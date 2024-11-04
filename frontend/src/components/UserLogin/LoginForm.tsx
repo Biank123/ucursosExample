@@ -28,19 +28,25 @@ const Login: React.FC = () => {
                 const token = data.token; 
                 localStorage.setItem("token", data.token);
                 setMessage('Inicio de sesión exitoso');
-
+                alert('Inicio de sesión exitoso');
                 // Comprueba si el token no es nulo
                 if (token) {
                     const decoded: { userId: string } = jwtDecode(token);
                     navigate(`/perfil/${decoded.userId}`);
                 }
+                console.log(localStorage.getItem("token"));
+
                 
             } else {
                 setMessage('Credenciales incorrectas');
+                alert('Credenciales incorrectas');
             }
         } catch (error) {
             console.error("Error en la solicitud:", error);
             setMessage('Error al conectar con el servidor');
+            console.log(localStorage.getItem("token"));
+            alert('Error al conectar con el servidor');
+
         }
 
         // Muestra el mensaje al usuario

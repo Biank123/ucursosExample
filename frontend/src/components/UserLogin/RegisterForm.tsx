@@ -9,6 +9,7 @@ const RoleForm: React.FC = () => {
     const [role, setRole] = useState('');
     const navigate = useNavigate();
 
+    // Mapeo de roles de español a inglés
     const roleMapping: { [key: string]: string } = {
         'estudiante': 'student',
         'profesor': 'professor'
@@ -36,18 +37,19 @@ const RoleForm: React.FC = () => {
             if (response.ok) {
                 const result = await response.json();
                 console.log('Registro exitoso:', result);
-                alert('Registro de cuenta existoso, ahora debes iniciar sesión.');
+                alert('Registro de cuenta exitoso, ahora debes iniciar sesión.');
                 navigate(`/login`);
             } else {
                 const error = await response.text();
                 console.error('Error al registrarse:', error);
-                alert('Error al registrar la cuenta de usuario');
+                alert('Error al registrar la cuenta de usuario: ' + error);
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            alert('Error en la solicitud, por favor intenta de nuevo.');
         }
     };
-
+    
     return (
         <form className='registerForm' onSubmit={handleSubmit}>
             <label>

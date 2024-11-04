@@ -85,6 +85,7 @@ private JwtUtil jwtUtil;
             if (passwordMatch) {
                 // Generar el token usando JwtUtil, pasando el ID y el correo del usuario
                 String token = jwtUtil.generateToken(user.getUserId(), user.getEmail(), user.getRole());
+                System.out.println("Token generado: " + token);
                 return Optional.of(token); // Devuelve el token
             } else {
                 System.out.println("Contraseña incorrecta para el usuario: " + user.getEmail());

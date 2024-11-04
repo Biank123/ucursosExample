@@ -39,20 +39,27 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/users/${userId}`);
-        
-        if (!response.ok) {
-          throw new Error('Error fetching user data');
-        }
-
-        const data = await response.json();
-        setUser(data);
+          const token = localStorage.getItem("token"); 
+          const response = await fetch(`http://localhost:8080/api/users/${userId}`, {
+              headers: {
+                  'Authorization': `Bearer ${token}`, 
+                  'Content-Type': 'application/json'
+              },
+    credentials: 'include'
+          });
+  
+          if (!response.ok) {
+              throw new Error('Error fetching user data');
+          }
+  
+          const data = await response.json();
+          setUser(data);
       } catch (err: any) {
-        setError(err.message);
+          setError(err.message);
       } finally {
-        setLoading(false);
+          setLoading(false);
       }
-    };
+  };
 
     fetchUserData();
   }, [userId]);

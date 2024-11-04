@@ -39,7 +39,7 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        String email = extractEmail(token);
+        String email = extractEmail(token); 
         boolean isValid = (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
         System.out.println("Token válido: " + isValid); // Para depuración
     
