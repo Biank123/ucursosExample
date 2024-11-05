@@ -36,7 +36,7 @@ const Sidebar: React.FC = () => {
         <li><Link to="/calendario">Calendario</Link></li>
         <li><Link to="/grupos">Grupos</Link></li>
         {role === 'student' && <li><Link to="/tomar-cursos">Inscribir cursos</Link></li>}
-        {role === 'teacher' && <li><Link to="/aprobar-cursos">Aprobar cursos</Link></li>}
+        {role === 'professor' && <li><Link to="/aprobar-cursos">Aprobar cursos</Link></li>}
         </ul>
     </div>
   );

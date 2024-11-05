@@ -1,34 +1,102 @@
 /* Contenedor principal para que no se superponga a la sidebar */
 .content2 {
-    margin-left: 200px;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  /* Ajustes de diseño para los cursos */
-  .content2 h2 {
-    color: #2e3b4e;
-  }
-  
-  .content2 form {
-    margin-bottom: 20px;
-  }
-  
-  .content2 form div {
-    margin-bottom: 10px;
-  }
-  
-  .content2 ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .content2 li {
-    background-color: #f4f6f8;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
+  margin-left: 200px;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Título */
+.content2 h2 {
+  color: #2e3b4e;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Descripción */
+.content2 p {
+  color: #4a4a4a;
+  margin-bottom: 20px;
+}
+
+/* Formulario para añadir curso */
+.content2 form {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de cada campo del formulario */
+.content2 form div {
+  margin-bottom: 10px;
+}
+
+/* Etiquetas del formulario */
+.content2 form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Inputs del formulario */
+.content2 form input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Botón de añadir curso */
+.content2 form button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.content2 form button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Lista de cursos existentes */
+.content2 ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Estilo de cada curso en la lista */
+.content2 li {
+  background-color: #f4f6f8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.content2 li:hover {
+  transform: translateY(-2px);
+}
+
+.content2 li h4 {
+  color: #2e3b4e;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.content2 li p {
+  color: #555;
+  font-size: 14px;
+  margin: 0;
+}

@@ -97,7 +97,7 @@ const ApproveCourses: React.FC = () => {
       <ul>
         {courses.map((course) => (
           <li key={course.course_id}>
-            <h4>{course.course_name}</h4>
+            <h4>{course.courseName}</h4>
             <p>{course.description}</p>
           </li>
         ))}
