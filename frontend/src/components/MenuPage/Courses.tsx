@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Courses.css';
 
 const EnrolledCourses: React.FC = () => {
   const [enrolledCourses, setEnrolledCourses] = useState<any[]>([]);
@@ -30,7 +31,7 @@ const EnrolledCourses: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className='courses-list'>
       <h2>Cursos Inscritos</h2>
       {error && <p>Error: {error}</p>}
       <ul>
@@ -39,7 +40,9 @@ const EnrolledCourses: React.FC = () => {
             {course.course_name}: {course.description}
           </li>
         ))}
+        <button>Eliminar curso</button>
       </ul>
+      
     </div>
   );
 };

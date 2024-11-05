@@ -74,8 +74,8 @@ const UserProfile: React.FC = () => {
       <h2>Perfil de Usuario</h2>
       {/* Sección de Información */}
       <div>
-        <p>Nombre de usuario: <strong>{user.username}</strong></p>
-        <p>Email: <strong>{user.email}</strong></p>
+        <p> <strong>Nombre de usuario:</strong>{user.username}</p>
+        <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Rol:</strong> {user.role}</p>
       </div>
 

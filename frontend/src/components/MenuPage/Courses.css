@@ -1,0 +1,29 @@
+.courses-list {
+    margin-left: 220px; /* Alinea con el ancho de la sidebar */
+    padding: 20px; /* Espaciado interior */
+    background-color: #f4f4f4; /* Color de fondo para la sección de cursos */
+    height: 100vh; /* Altura completa de la ventana */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es largo */
+}
+
+.courses-list h2 {
+    color: #2e3b4e; /* Color del título que se complementa con la sidebar */
+    text-align: left; /* Alineación a la izquierda */
+}
+
+.courses-list ul {
+    list-style-type: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Elimina el padding */
+}
+
+.courses-list ul li {
+    margin: 10px 0; /* Margen vertical entre elementos de la lista */
+    padding: 10px; /* Espaciado interior para los elementos de la lista */
+    background-color: #ffffff; /* Color de fondo blanco para los cursos */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+.courses-list ul li:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el mouse */
+}

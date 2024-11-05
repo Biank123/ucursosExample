@@ -41,7 +41,7 @@ public class UserCourse {
 
     // Constructor parametrizado
     public UserCourse(Long userCourseId, User user, Course course, String roleInCourse) {
-        this.userCourseId = userCourseId;
+        this.userCourseId = userCourseId; 
         this.user = user;
         this.course = course;
         this.roleInCourse = roleInCourse;

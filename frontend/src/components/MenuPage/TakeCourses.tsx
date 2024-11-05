@@ -5,6 +5,7 @@ const Courses: React.FC = () => {
   const [courses, setCourses] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Para mostrar los cursos disponibles
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -21,6 +22,7 @@ const Courses: React.FC = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         setCourses(data);
       } catch (err: any) {
         setError(err.message);
@@ -30,7 +32,14 @@ const Courses: React.FC = () => {
     fetchCourses();
   }, []);
 
+ 
+// Para inscribir un curso
   const enrollInCourse = async (courseId: number) => {
+
+    const userCourse = {
+      course: { courseId: courseId }, 
+      roleInCourse: localStorage.getItem('role')
+};
     try {
       const response = await fetch(`http://localhost:8080/api/enroll/${courseId}`, {
         method: 'POST',
@@ -38,6 +47,7 @@ const Courses: React.FC = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}` 
         },
+        body: JSON.stringify(userCourse),
       });
 
       if (!response.ok) {
@@ -45,6 +55,7 @@ const Courses: React.FC = () => {
       }
 
       const result = await response.json();
+      
       alert(`Inscripción exitosa: ${result.message}`); 
     } catch (err: any) {
       alert(`Error: ${err.message}`);
@@ -57,8 +68,8 @@ const Courses: React.FC = () => {
       {error && <p>Error: {error}</p>}
       <ul className="course-list">
         {courses.map(course => (
-          <li className="course-item" key={course.course_id}>{course.course_name}: {course.description}
-          <button onClick={() => enrollInCourse(course.course_id)} className="enroll-button">Inscribir curso</button>
+          <li className="course-item" key={course.courseId}>{course.courseName}: {course.description}
+          <button onClick={() => enrollInCourse(course.courseId)} className="enroll-button">Inscribir curso</button>
           </li> 
           
         ))}
