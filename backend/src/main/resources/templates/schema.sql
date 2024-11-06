@@ -128,3 +128,19 @@ BEFORE UPDATE ON comments
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at_column();
 
+-- Tabla de notas parciales
+CREATE TABLE partial_grades (
+    partial_grade_id SERIAL PRIMARY KEY,
+    user_course_id INT NOT NULL REFERENCES user_courses(user_course_id) ON DELETE CASCADE,
+    grade NUMERIC(5, 2) CHECK (grade >= 1.00 AND grade <= 7.00),
+    UNIQUE (user_course_id, partial_grade_id) -- Asegura que cada nota parcial es única
+);
+
+
+-- Tabla de notas finales
+CREATE TABLE final_grades (
+    final_grade_id SERIAL PRIMARY KEY,
+    user_course_id INT NOT NULL REFERENCES user_courses(user_course_id) ON DELETE CASCADE,
+    final_grade NUMERIC(5, 2) CHECK (final_grade >= 1.00 AND final_grade <= 7.00),
+    UNIQUE (user_course_id) -- Asegura que solo haya una nota final por curso por usuario
+);

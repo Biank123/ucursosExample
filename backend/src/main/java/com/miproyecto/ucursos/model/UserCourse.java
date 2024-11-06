@@ -1,7 +1,11 @@
 package com.miproyecto.ucursos.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,11 +27,14 @@ public class UserCourse {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference("user-userCourses")
     private User user;
-
+    
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonBackReference("course-userCourses")
     private Course course;
+    
 
     @Column(name = "role_in_course", nullable = false)
     private String roleInCourse;
@@ -34,7 +42,13 @@ public class UserCourse {
     @Column(name = "enrollment_date", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime enrollmentDate;
 
-    // Constructor predeterminado
+    @OneToMany(mappedBy = "userCourse", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PartialGrade> partialGrades;
+
+    @OneToMany(mappedBy = "userCourse", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FinalGrade> finalGrades;
+
+
     public UserCourse() {
         this.enrollmentDate = LocalDateTime.now();
     }

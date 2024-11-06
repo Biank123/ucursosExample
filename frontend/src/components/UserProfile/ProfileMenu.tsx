@@ -33,6 +33,7 @@ const UserProfile: React.FC = () => {
   const toggleLogout = () => {
     console.log("Cerrando sesión...");
     localStorage.removeItem('token'); // Borra el token guardado
+    localStorage.clear();
     window.location.href = '/';
   }
 

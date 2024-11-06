@@ -1,12 +1,17 @@
 package com.miproyecto.ucursos.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -16,7 +21,8 @@ import jakarta.persistence.Table;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -33,6 +39,11 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updated_at;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference("user-userCourses")
+    private List<UserCourse> userCourses;
+
+
      @PrePersist
     protected void onCreate() {
         created_at = LocalDateTime.now();
@@ -47,7 +58,7 @@ public class User {
     // Getters y Setters
 
     public Long getUserId() {
-        return user_id;
+        return userId;
     }
 
     public String getEmail() {
@@ -74,8 +85,8 @@ public class User {
         return updated_at;
     }
 
-    public void setUserId(Long user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public void setEmail(String email) {

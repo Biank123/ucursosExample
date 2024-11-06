@@ -25,6 +25,7 @@ const ApproveCourses: React.FC = () => {
 
         const data = await response.json();
         setCourses(data);
+        console.log(data);
       } catch (err: any) {
         setError(err.message);
       }
@@ -33,11 +34,12 @@ const ApproveCourses: React.FC = () => {
     fetchCourses();
   }, []);
 
-// Lógica para añadir un nuevo curso con el rol de profesor
+  // Lógica para añadir un nuevo curso con el rol de profesor
   const handleAddCourse = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      // Paso 1: Crear el curso
       const response = await fetch('http://localhost:8080/api/courses', {
         method: 'POST',
         headers: {
@@ -56,16 +58,50 @@ const ApproveCourses: React.FC = () => {
 
       const newCourse = await response.json();
       setCourses([...courses, newCourse]); // Actualiza la lista con el nuevo curso
-      setNewCourseName(''); // Limpia el campo de nombre del curso
-      setNewCourseDescription(''); // Limpia el campo de descripción
+
+      // Paso 2: Inscribir automáticamente al creador como profesor
+      await enrollAsProfessor(newCourse.courseId);
+
+      // Limpiar campos
+      setNewCourseName('');
+      setNewCourseDescription('');
     } catch (err: any) {
       setError(err.message);
     }
   };
 
+  // Función para inscribir al creador del curso como profesor
+  const enrollAsProfessor = async (courseId: number) => {
+    try {
+      const userCourse = {
+        course: { courseId },
+        roleInCourse: 'professor'
+      };
+
+      const response = await fetch(`http://localhost:8080/api/enroll/professor/${courseId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(userCourse),
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al inscribir al profesor en el curso');
+      }
+
+      const result = await response.json();
+      console.log(`Inscripción como profesor exitosa: ${result.message}`);
+      alert('Inscripción de curso exitosa.');
+    } catch (err: any) {
+      setError(`Error al inscribir al profesor: ${err.message}`);
+    }
+  };
+
   return (
     <div className="content2">
-      <h2>Aprobar Cursos</h2>
+      <h2>Añadir cursos</h2>
       <p>Aquí podrás añadir cursos y ver la lista de los cursos existentes.</p>
 
       {/* Formulario para añadir un nuevo curso */}
@@ -88,7 +124,7 @@ const ApproveCourses: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">Añadir Curso</button>
+        <button type="submit">Crear Curso</button>
       </form>
 
       {/* Lista de cursos existentes */}
@@ -96,9 +132,12 @@ const ApproveCourses: React.FC = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul>
         {courses.map((course) => (
-          <li key={course.course_id}>
+          <li key={course.courseId}>
             <h4>{course.courseName}</h4>
             <p>{course.description}</p>
+            <button onClick={() => enrollAsProfessor(course.courseId)}>
+              Inscribir como profesor
+            </button>
           </li>
         ))}
       </ul>

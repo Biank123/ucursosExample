@@ -10,6 +10,7 @@ import Calendar from './components/MenuPage/Calendar.tsx';
 import Groups from './components/MenuPage/Groups.tsx';
 import TakeCourses from './components/MenuPage/TakeCourses.tsx';
 import ApproveCourses from './components/MenuPage/ApproveCourses.tsx';
+import CourseDetails from "./components/MenuPage/CourseDetails.tsx";
 
 function App() {
 
@@ -29,13 +30,13 @@ function App() {
         <Route path="/" element={<Landing />}/>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
         <Route path="/perfil/:id" element={<Profile />} />
         <Route path="/cursos" element={<Courses />} />
         <Route path="/calendario" element={<Calendar />} />
         <Route path="/grupos" element={<Groups />} />
         <Route path="/tomar-cursos" element={<TakeCourses />} />
         <Route path="/aprobar-cursos" element={<ApproveCourses />} />
+        <Route path="/cursos/:courseId" element={<CourseDetails />} />
       </Routes>
     </Router>
   );

@@ -20,7 +20,7 @@ const Calendar: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('https://tu-api.com/api/events'); // URL de tu API
+        const response = await fetch('https://localhost:8080/api/events'); //CREAR ENDPOINT EN EL BACKEND
         const data = await response.json();
         setEvents(data);
       } catch (error) {
