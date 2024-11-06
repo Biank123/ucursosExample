@@ -28,7 +28,7 @@ const Login: React.FC = () => {
                 const token = data.token; 
                 localStorage.setItem("token", data.token);
                 setMessage('Inicio de sesión exitoso');
-                alert('Inicio de sesión exitoso');
+                
                 // Comprueba si el token no es nulo
                 if (token) {
                     const decoded: { userId: string } = jwtDecode(token);
